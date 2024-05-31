@@ -82,7 +82,7 @@
     "lint-staged": "^15.2.5",
     "postcss": "^8",
     "prettier": "^3.2.5",
-    "prettier-plugin-tailwindcss": "^0.5.14",
+    "prettier-plugin-tailwindcss": "^0.6.0",
     "swagger-typescript-api": "^13.0.3",
     "tailwindcss": "^3.4.3",
     "typescript": "^5"
