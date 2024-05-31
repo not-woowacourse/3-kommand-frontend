@@ -13,8 +13,8 @@ const wantedSansVariable = localFont({
 });
 
 const metadata: Metadata = {
-  title: '우테코 따라잡기',
-  description: '우테코 따라잡기',
+  title: 'Searzh',
+  description: '우테코 따라잡기 세번째 구현과제',
 };
 
 const RootLayout = ({ children }: PropsWithChildren) => {
