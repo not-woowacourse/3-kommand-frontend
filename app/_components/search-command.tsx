@@ -16,7 +16,6 @@ import {
   CommandList,
 } from '@/components/ui/command';
 import { api } from '@/lib/api';
-import { cn } from '@/lib/utils';
 import { useSearchRecordStore } from '@/stores/use-search-record-store';
 import { useStore_Ssr } from '@/stores/use-store__ssr';
 
@@ -76,7 +75,7 @@ const SearchCommand = () => {
 
   return (
     <Command
-      className={cn('rounded-lg border shadow-md', 'max-w-lg')}
+      className="rounded-lg border shadow-md"
       loop
       shouldFilter={false}
       onKeyDown={handleEnterKeyDown}
