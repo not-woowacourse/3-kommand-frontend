@@ -11,7 +11,6 @@ import {
   Command,
   CommandGroup,
   CommandInput,
-  CommandItem,
   CommandList,
 } from '@/components/ui/command';
 import { api } from '@/lib/api';
@@ -147,13 +146,23 @@ const SearchCommand = () => {
           </CommandGroup>
         )}
         {Object.keys(searchRecordStore?.records ?? {}).length > 0 && (
-          <CommandItem className="text-xs" disabled>
-            검색기록을 모두 삭제하려면&nbsp;
+          <div className="flex items-center px-2 py-1 text-xs text-gray-600">
+            검색 기록을 모두 삭제하려면&nbsp;
             <kbd className="flex items-center gap-1">
               <span className="text-lg">⌘</span>X
             </kbd>
-            &nbsp;를 누르세요.
-          </CommandItem>
+            &nbsp;를 누르거나&nbsp;
+            <span
+              className="cursor-pointer rounded-sm border bg-slate-100 px-1 py-0.5 font-bold"
+              onClick={() => {
+                console.log('click');
+                searchRecordStore?.clear();
+              }}
+            >
+              여기
+            </span>
+            를 클릭하세요.
+          </div>
         )}
       </CommandList>
     </Command>
