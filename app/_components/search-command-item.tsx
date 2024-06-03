@@ -1,16 +1,19 @@
 import Link from 'next/link';
 
-import { type SearchMovieResponseDto } from '@/__generated__/data-contracts';
+import { type ReadMovieResponseDto } from '@/__generated__/data-contracts';
 import { Badge } from '@/components/ui/badge';
 import { CommandItem } from '@/components/ui/command';
 import { ROUTES } from '@/constants/routes';
+import { cn } from '@/lib/utils';
 
 type SearchCommandItemProps = {
+  variant?: 'default' | 'seen';
   value: string;
-  movie: SearchMovieResponseDto;
+  movie: ReadMovieResponseDto;
 };
 
 const SearchCommandItem = ({
+  variant,
   value,
   movie: { id, title, alternativeTitle, rights },
 }: SearchCommandItemProps) => {
@@ -23,15 +26,27 @@ const SearchCommandItem = ({
         className="flex items-start justify-between gap-2"
       >
         <div className="flex flex-col">
-          <span>{title}</span>
-          <span className="text-xs text-neutral-600">{alternativeTitle}</span>
+          <span className={cn(variant === 'seen' && 'text-purple-900')}>
+            {title}
+          </span>
+          <span
+            className={cn(
+              'text-xs',
+              variant === 'default' && 'text-neutral-600',
+              variant === 'seen' && 'text-purple-900',
+            )}
+          >
+            {alternativeTitle}
+          </span>
         </div>
-        <div className="flex gap-0.5">
-          {splitedRights.map((right, index) => (
-            <Badge key={index} variant="outline">
-              {right}
-            </Badge>
-          ))}
+        <div className="flex flex-col">
+          <div className="flex flex-wrap justify-end gap-0.5">
+            {splitedRights.map((right, index) => (
+              <Badge key={index} variant="outline">
+                {right}
+              </Badge>
+            ))}
+          </div>
         </div>
       </CommandItem>
     </Link>

@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 
+import { useEffect } from 'react';
+
 import { useQuery } from '@tanstack/react-query';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 
@@ -9,6 +11,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
 import { api } from '@/lib/api';
+import { useSearchRecordStore } from '@/stores/use-search-record-store';
+import { useStore_Ssr } from '@/stores/use-store__ssr';
 
 type MovieIdPageProps = {
   params: {
@@ -23,6 +27,29 @@ const MovieIdPage = ({ params: { movieId } }: MovieIdPageProps) => {
   });
 
   const movie = data?.data;
+
+  const searchRecordStore = useStore_Ssr(
+    useSearchRecordStore,
+    (state) => state,
+  );
+
+  useEffect(() => {
+    if (movie === undefined) {
+      return;
+    }
+
+    if (searchRecordStore === undefined) {
+      return;
+    }
+
+    const isExist = searchRecordStore.records[movie.id] !== undefined;
+
+    if (isExist) {
+      return;
+    }
+
+    searchRecordStore.addRecord(movie);
+  }, [searchRecordStore, movie]);
 
   if (movie === undefined) {
     return null;
