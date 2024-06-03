@@ -77,7 +77,7 @@ const MovieIdPage = ({ params: { movieId } }: MovieIdPageProps) => {
             <p className="text-neutral-600">{alternativeTitle}</p>
           )}
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-x-2 gap-y-1">
           {splitedRights.map((right) => (
             <Badge key={right}>{right}</Badge>
           ))}
@@ -87,7 +87,9 @@ const MovieIdPage = ({ params: { movieId } }: MovieIdPageProps) => {
         <tbody>
           {splitedCategories.length > 0 && (
             <tr>
-              <td className="border border-gray-300 px-4 py-2">카테고리</td>
+              <td className="text-nowrap border border-gray-300 px-4 py-2">
+                카테고리
+              </td>
               <td className="border border-gray-300 px-4 py-2">
                 <div className="flex gap-2">
                   {splitedCategories.map((category) => (
@@ -101,7 +103,9 @@ const MovieIdPage = ({ params: { movieId } }: MovieIdPageProps) => {
           )}
           {splitedRegions.length > 0 && (
             <tr>
-              <td className="border border-gray-300 px-4 py-2">지역</td>
+              <td className="text-nowrap border border-gray-300 px-4 py-2">
+                지역
+              </td>
               <td className="border border-gray-300 px-4 py-2">
                 <div className="flex gap-2">
                   {splitedRegions.map((region) => (
@@ -114,11 +118,15 @@ const MovieIdPage = ({ params: { movieId } }: MovieIdPageProps) => {
             </tr>
           )}
           <tr>
-            <td className="border border-gray-300 px-4 py-2">UCI</td>
+            <td className="text-nowrap border border-gray-300 px-4 py-2">
+              UCI
+            </td>
             <td className="border border-gray-300 px-4 py-2">{uci}</td>
           </tr>
           <tr>
-            <td className="border border-gray-300 px-4 py-2">상세정보</td>
+            <td className="text-nowrap border border-gray-300 px-4 py-2">
+              상세정보
+            </td>
             <td className="border border-gray-300 px-4 py-2">
               <Button variant="outline" size="sm">
                 <Link
