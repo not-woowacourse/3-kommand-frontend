@@ -332,7 +332,19 @@ export interface BatchDeleteFormDto {
   ids: number[];
 }
 
-export interface ReadMovieResponseDto {
+export interface MatchedFields {
+  /**
+   * title 매칭 여부
+   * @example false
+   */
+  title: boolean;
+  /** alternativeTitle 매칭 여부 */
+  alternativeTitle: boolean;
+  /** rights 매칭 여부 */
+  rights: boolean;
+}
+
+export interface SearchMovieResponseDto {
   /**
    * 영화 ID
    * @example 1
@@ -378,9 +390,10 @@ export interface ReadMovieResponseDto {
    * @example "봉준호"
    */
   rights?: string;
+  matchedFields: MatchedFields;
 }
 
-export interface SearchMovieResponseDto {
+export interface ReadMovieResponseDto {
   /**
    * 영화 ID
    * @example 1
@@ -463,6 +476,6 @@ export interface MoviesControllerSearchParams {
   limit?: number;
 }
 
-export type MoviesControllerSearchData = ReadMovieResponseDto[];
+export type MoviesControllerSearchData = SearchMovieResponseDto[];
 
-export type MoviesControllerFindOneData = SearchMovieResponseDto;
+export type MoviesControllerFindOneData = ReadMovieResponseDto;
