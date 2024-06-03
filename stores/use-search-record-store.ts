@@ -7,6 +7,7 @@ type SearchRecordState = {
   records: Record<number, ReadMovieResponseDto>;
   addRecord: (record: ReadMovieResponseDto) => void;
   removeRecord: (recordId: number) => void;
+  clear: () => void;
 };
 
 const useSearchRecordStore = create<SearchRecordState>()(
@@ -30,6 +31,11 @@ const useSearchRecordStore = create<SearchRecordState>()(
 
         set({
           records,
+        });
+      },
+      clear: () => {
+        set({
+          records: {},
         });
       },
     }),

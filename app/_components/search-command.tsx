@@ -1,8 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
-import { type KeyboardEventHandler, useState } from 'react';
+import { type KeyboardEventHandler, useEffect, useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from '@uidotdev/usehooks';
@@ -13,6 +11,7 @@ import {
   Command,
   CommandGroup,
   CommandInput,
+  CommandItem,
   CommandList,
 } from '@/components/ui/command';
 import { api } from '@/lib/api';
@@ -20,8 +19,6 @@ import { useSearchRecordStore } from '@/stores/use-search-record-store';
 import { useStore_Ssr } from '@/stores/use-store__ssr';
 
 const SearchCommand = () => {
-  const router = useRouter();
-
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 300);
 
@@ -73,9 +70,26 @@ const SearchCommand = () => {
     }
   };
 
+  /**
+   * searchRecordStore가 변화하기 때문에 useEffect 안에서 함수를 생성하면 안된다.
+   */
+  const handleCmdXKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'x' && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault();
+
+      searchRecordStore?.clear();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleCmdXKeyDown);
+
+    return () => document.removeEventListener('keydown', handleCmdXKeyDown);
+  }, [handleCmdXKeyDown]);
+
   return (
     <Command
-      className="rounded-lg border shadow-md"
+      className="w-[calc(100vw-16px)] rounded-lg border shadow-md md:w-[600px]"
       loop
       shouldFilter={false}
       onKeyDown={handleEnterKeyDown}
@@ -131,6 +145,15 @@ const SearchCommand = () => {
               />
             ))}
           </CommandGroup>
+        )}
+        {Object.keys(searchRecordStore?.records ?? {}).length > 0 && (
+          <CommandItem className="text-xs" disabled>
+            검색기록을 모두 삭제하려면&nbsp;
+            <kbd className="flex items-center gap-1">
+              <span className="text-lg">⌘</span>X
+            </kbd>
+            &nbsp;를 누르세요.
+          </CommandItem>
         )}
       </CommandList>
     </Command>
