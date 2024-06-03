@@ -94,7 +94,12 @@ const MovieIdPage = ({ params: { movieId } }: MovieIdPageProps) => {
             <td className="border border-gray-300 px-4 py-2">상세정보</td>
             <td className="border border-gray-300 px-4 py-2">
               <Button variant="outline" size="sm">
-                <Link href={url} className="flex items-center">
+                <Link
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center"
+                >
                   <ExternalLink className="mr-2 h-4 w-4" />
                   바로가기
                 </Link>
