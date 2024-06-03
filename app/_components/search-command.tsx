@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
+import { useDebounce } from '@uidotdev/usehooks';
 
 import { SearchCommandItem } from '@/app/_components/search-command-item';
 import {
@@ -16,13 +17,14 @@ import { cn } from '@/lib/utils';
 
 const SearchCommand = () => {
   const [search, setSearch] = useState('');
+  const debouncedSearch = useDebounce(search, 300);
 
   const { data } = useQuery({
-    queryKey: ['search', search],
+    queryKey: ['search', debouncedSearch],
     queryFn: () =>
-      api.movies.moviesControllerSearch({ query: search, limit: 6 }),
+      api.movies.moviesControllerSearch({ query: debouncedSearch, limit: 6 }),
     placeholderData: (prevData) => prevData,
-    enabled: search.length > 0,
+    enabled: debouncedSearch.length > 0,
   });
 
   const movies = data?.data ?? [];
