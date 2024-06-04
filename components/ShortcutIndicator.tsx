@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  type ComponentPropsWithoutRef,
   type PropsWithChildren,
   useCallback,
   useEffect,
@@ -16,12 +17,14 @@ interface ShortcutIndicator {
   // pass lowercase values if using an alphabet
   requiredKey: KeyboardEvent['key'];
   requiredKeyAlt?: KeyboardEvent['key'];
+  keyClassName?: ComponentPropsWithoutRef<typeof Key>['className'];
 }
 
 export function ShortcutIndicator({
   onFire,
   requiredKey,
   requiredKeyAlt,
+  keyClassName,
 }: ShortcutIndicator) {
   // XXX: 커버리지가 매우 좁습니다. (약 74%)
   const userAgentDataSupported = typeof navigator.userAgentData !== 'undefined';
@@ -89,28 +92,33 @@ export function ShortcutIndicator({
 
   return (
     <div className="pointer-events-none absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-[0.1875rem] opacity-100 transition-opacity peer-focus:peer-[:not(:placeholder-shown)]:opacity-0">
-      <Key pressed={isModifierPressed}>
+      <Key pressed={isModifierPressed} className={keyClassName}>
         {requiredModifier === 'Meta' ? (
           <Command size={12} strokeWidth={2.5} />
         ) : (
           requiredModifier
         )}
       </Key>
-      <Key pressed={isRequiredKeyPressed}>{requiredKey.toUpperCase()}</Key>
+      <Key pressed={isRequiredKeyPressed} className={keyClassName}>
+        {requiredKey.toUpperCase()}
+      </Key>
     </div>
   );
 }
 
 type KeyProps = PropsWithChildren & {
   pressed?: boolean;
+  className?: string;
 };
 
-function Key({ children, pressed = false }: KeyProps) {
+function Key({ children, pressed = false, className }: KeyProps) {
   return (
     <kbd
       className={cn(
-        'flex min-h-6 items-center rounded-sm border border-base-300 bg-base-100 px-1 py-0.5 font-sans text-[0.6875rem] font-bold leading-none text-base-400 shadow-base-300 dark:border-base-dark-600 dark:bg-base-dark-800 dark:text-base-dark-500 dark:shadow-base-dark-600',
+        'flex items-center font-sans',
         pressed ? 'translate-y-[1px]' : 'shadow-[0_1px]',
+        className ??
+          'min-h-6 rounded-sm border border-base-300 bg-base-100 px-1 py-0.5 text-[0.6875rem] font-bold leading-none text-base-400 shadow-base-300 dark:border-base-dark-600 dark:bg-base-dark-800 dark:text-base-dark-500 dark:shadow-base-dark-600',
       )}
     >
       {children}
