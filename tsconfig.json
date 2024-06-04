@@ -19,7 +19,8 @@
     ],
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "types": ["./node_modules/user-agent-data-types"]
   },
   "include": [
     "next-env.d.ts",

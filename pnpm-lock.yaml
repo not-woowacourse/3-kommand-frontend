@@ -219,6 +219,9 @@ importers:
       typescript:
         specifier: ^5
         version: 5.4.3
+      user-agent-data-types:
+        specifier: ^0.4.2
+        version: 0.4.2
 
 packages:
 
@@ -3105,6 +3108,9 @@ packages:
     resolution: {integrity: sha512-PElTlVMwpblvbNqQ82d2n6RjStvdSoNe9FG28kNfz3WiXilJm4DdNkEzRhCZuIDwY8U08WVihhGR5iRqAwfDiw==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
+
+  user-agent-data-types@0.4.2:
+    resolution: {integrity: sha512-jXep3kO/dGNmDOkbDa8ccp4QArgxR4I76m3QVcJ1aOF0B9toc+YtSXtX5gLdDTZXyWlpQYQrABr6L1L2GZOghw==}
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
@@ -6375,6 +6381,8 @@ snapshots:
   use-sync-external-store@1.2.2(react@18.2.0):
     dependencies:
       react: 18.2.0
+
+  user-agent-data-types@0.4.2: {}
 
   util-deprecate@1.0.2: {}
 
