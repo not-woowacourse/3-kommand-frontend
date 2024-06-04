@@ -156,12 +156,7 @@ const SearchCommand = () => {
             <div className="flex items-center">
               검색 기록을 모두 삭제하려면&nbsp;
             </div>
-            <div className="flex items-center">
-              <kbd className="flex items-center gap-1">
-                <span className="text-lg">⌘</span>X
-              </kbd>
-              &nbsp;를 누르거나&nbsp;
-            </div>
+            <div className="flex items-center">⌘ X 를 누르거나&nbsp;</div>
             <div className="flex items-center">
               <span
                 className="cursor-pointer rounded-sm border bg-slate-100 px-1 py-0.5 font-bold"
