@@ -2,17 +2,18 @@
 
 import {
   type ComponentPropsWithoutRef,
-  useEffect,
+  type Dispatch,
+  type SetStateAction,
   useRef,
-  useState,
 } from 'react';
 
 import { Search } from 'lucide-react';
 
 import { ShortcutIndicator } from '@/components/ShortcutIndicator';
-import { useDebounce } from '@/lib/useDebounce';
 
 interface SearchBoxProps {
+  query: string;
+  setQuery: Dispatch<SetStateAction<string>>;
   placeholder: string;
   requiredKey: ComponentPropsWithoutRef<
     typeof ShortcutIndicator
@@ -20,23 +21,16 @@ interface SearchBoxProps {
   requiredKeyAlt?: ComponentPropsWithoutRef<
     typeof ShortcutIndicator
   >['requiredKeyAlt'];
-  debounceMilliseconds: number;
 }
 
 export function SearchBox({
+  query,
+  setQuery,
   placeholder,
   requiredKey,
   requiredKeyAlt,
-  debounceMilliseconds,
 }: SearchBoxProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const [query, setQuery] = useState('');
-  const deboundedQuery = useDebounce(query, debounceMilliseconds);
-
-  useEffect(() => {
-    console.log(deboundedQuery);
-  }, [deboundedQuery]);
 
   return (
     <div className="relative w-full">
