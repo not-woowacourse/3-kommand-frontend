@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { historyReducer } from '@/states/history/historySlice';
+import { historyReducer } from '@/states/historySlice';
 
 export const makeStore = () => {
   return configureStore({

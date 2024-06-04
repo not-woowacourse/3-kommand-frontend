@@ -1,7 +1,7 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/lib/redux';
-import { prepend, reset } from '@/states/history/historySlice';
+import { prepend, reset } from '@/states/historySlice';
 
 interface SearchResultProps {
   query: string;
