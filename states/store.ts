@@ -1,13 +1,22 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
 
 import { historyReducer } from '@/states/historySlice';
+import { searchApi } from '@/states/searchApi';
 
 export const makeStore = () => {
-  return configureStore({
+  const store = configureStore({
     reducer: {
       history: historyReducer,
+      [searchApi.reducerPath]: searchApi.reducer,
     },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(searchApi.middleware),
   });
+
+  setupListeners(store.dispatch);
+
+  return store;
 };
 
 export type AppStore = ReturnType<typeof makeStore>;
