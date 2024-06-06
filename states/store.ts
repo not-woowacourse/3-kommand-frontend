@@ -1,38 +1,17 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import {
-  FLUSH,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-  REHYDRATE,
-  persistReducer,
-} from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 
 import { historyReducer } from '@/states/historySlice';
 import { searchApi } from '@/states/searchApi';
 
-const reducers = combineReducers({
-  history: historyReducer,
-  [searchApi.reducerPath]: searchApi.reducer,
-});
-
-const persistedReducer = persistReducer(
-  { key: 'not-woowacourse-search', storage, whitelist: ['history'] },
-  reducers,
-);
-
 export const makeStore = () => {
   const store = configureStore({
-    reducer: persistedReducer,
+    reducer: {
+      history: historyReducer,
+      [searchApi.reducerPath]: searchApi.reducer,
+    },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware({
-        serializableCheck: {
-          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        },
-      }).concat(searchApi.middleware),
+      getDefaultMiddleware().concat(searchApi.middleware),
   });
 
   setupListeners(store.dispatch);
