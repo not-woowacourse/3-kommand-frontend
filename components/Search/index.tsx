@@ -55,7 +55,6 @@ export function Search() {
     >
       <SearchBox
         query={query}
-        setQuery={setQuery}
         onChange={onChange}
         onFocus={onFocus}
         placeholder="영화 검색"
