@@ -110,7 +110,7 @@ export function Detail({ id }: DetailProps) {
             {[item.year, item.rights].filter(Boolean).join(', ')}
           </p>
           {item.category && (
-            <ul className="mt-1.5 flex -translate-x-0.5 flex-wrap justify-center gap-1">
+            <ul className="mt-1.5 flex flex-wrap justify-center gap-1">
               {item.category.split(',').map((category) => (
                 <li
                   key={category}
