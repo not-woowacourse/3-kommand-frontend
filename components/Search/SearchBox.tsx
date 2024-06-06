@@ -1,9 +1,9 @@
 'use client';
 
 import {
+  type ChangeEventHandler,
   type ComponentPropsWithoutRef,
-  type Dispatch,
-  type SetStateAction,
+  type FocusEventHandler,
   useRef,
 } from 'react';
 
@@ -13,7 +13,8 @@ import { ShortcutIndicator } from '@/components/ShortcutIndicator';
 
 interface SearchBoxProps {
   query: string;
-  setQuery: Dispatch<SetStateAction<string>>;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  onFocus: FocusEventHandler<HTMLInputElement>;
   placeholder: string;
   requiredKey: ComponentPropsWithoutRef<
     typeof ShortcutIndicator
@@ -25,7 +26,8 @@ interface SearchBoxProps {
 
 export function SearchBox({
   query,
-  setQuery,
+  onChange,
+  onFocus,
   placeholder,
   requiredKey,
   requiredKeyAlt,
@@ -33,12 +35,13 @@ export function SearchBox({
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="relative w-full">
+    <search className="relative w-full max-w-96">
       <input
         ref={inputRef}
         placeholder={placeholder}
         value={query}
-        onChange={(event) => setQuery(event.target.value)}
+        onChange={onChange}
+        onFocus={onFocus}
         type="search"
         inputMode="text"
         className="peer w-full rounded-lg border border-base-200 bg-white px-3 py-2 pl-9 text-base-700 placeholder-base-300 shadow-sm transition-all focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 focus-visible:ring-offset-body disabled:cursor-not-allowed disabled:opacity-50 dark:border-base-dark-700 dark:bg-base-dark-900 dark:text-base-dark-200 dark:placeholder-base-dark-600 dark:focus-visible:ring-offset-body-dark enabled:[&:not(:focus-visible)]:hover:bg-base-100 dark:enabled:[&:not(:focus-visible)]:hover:bg-base-dark-800"
@@ -53,6 +56,6 @@ export function SearchBox({
         size={18}
         strokeWidth={2.5}
       />
-    </div>
+    </search>
   );
 }
