@@ -162,7 +162,8 @@ function DetailRow({ icon: Icon, label, text, href }: DetailRowProps) {
         <Icon size={20} />
         <div className="text-sm font-semibold">{label}</div>
       </div>
-      {text && <div className="text-balance text-right">{text}</div>}
+      {/* break-all is for UCI */}
+      {text && <div className="text-balance break-all text-right">{text}</div>}
       {href && <SquareArrowOutUpRight size={18} strokeWidth={2.5} />}
     </Tag>
   );
