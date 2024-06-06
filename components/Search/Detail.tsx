@@ -12,6 +12,7 @@ import {
   Earth,
   Link2,
   type LucideIcon,
+  Share,
   SquareArrowOutUpRight,
 } from 'lucide-react';
 import { parseAsInteger, useQueryState } from 'nuqs';
@@ -85,8 +86,8 @@ export function Detail({ id }: DetailProps) {
         {(isShareAvailable || isClipboardAvailable) && (
           <Button
             onClick={onShareClick}
-            icon={Clipboard}
-            text="링크 복사"
+            icon={isShareAvailable ? Share : Clipboard}
+            text={isShareAvailable ? '공유' : '링크 복사'}
             requiredCode="KeyU"
             keyLabel="U"
           />
