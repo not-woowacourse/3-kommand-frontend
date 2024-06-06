@@ -47,7 +47,7 @@ export function Search() {
   return (
     <div
       className={cn(
-        'flex min-h-0 w-full flex-1 grow flex-col items-center gap-4',
+        'flex min-h-0 w-full flex-1 flex-col items-center gap-4',
         isDirty || query || id
           ? 'justify-start'
           : 'justify-end sm:justify-center',

@@ -40,7 +40,7 @@ export function Item({ item }: ItemProps) {
             className={cn(
               'text-balance font-medium',
               visited
-                ? 'text-accent-700 dark:text-accent-300'
+                ? 'pr-8 text-accent-700 dark:text-accent-300'
                 : 'text-base-700 dark:text-base-dark-300',
             )}
           >
