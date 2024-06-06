@@ -11,6 +11,7 @@ import {
   Clipboard,
   Earth,
   Link2,
+  Loader2,
   type LucideIcon,
   Share,
   SquareArrowOutUpRight,
@@ -41,10 +42,14 @@ export function Detail({ id }: DetailProps) {
     if (item) dispatch(prepend({ item }));
   }, [item, dispatch]);
 
-  // XXX: 왜 로딩 상태 뜨는 걸 못 보는지
-  // TODO: skeleton
-  if (isLoading) return <div>로딩 중</div>;
-  // XXX: better error message
+  if (isLoading)
+    return (
+      <div className="flex min-h-60 items-center justify-center text-base-300 dark:text-base-dark-700">
+        <Loader2 className="animate-spin" size={36} />
+        <div className="sr-only">로딩 중…</div>
+      </div>
+    );
+
   if (error || !item)
     return (
       <div className="flex flex-col items-center pb-8">
