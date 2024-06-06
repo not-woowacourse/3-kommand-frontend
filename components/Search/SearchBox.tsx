@@ -50,6 +50,7 @@ export function SearchBox({
         onFire={() => inputRef.current?.focus()}
         requiredKey={requiredKey}
         requiredKeyAlt={requiredKeyAlt}
+        absolute
       />
       <Search
         className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-base-400 dark:text-base-dark-600"

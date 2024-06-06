@@ -10,12 +10,14 @@ import {
 import { Command } from 'lucide-react';
 
 import { Key } from '@/components/Key';
+import { cn } from '@/lib/utils';
 
 interface ShortcutIndicator {
   onFire: () => void;
   // pass lowercase values if using an alphabet
   requiredKey: KeyboardEvent['key'];
   requiredKeyAlt?: KeyboardEvent['key'];
+  absolute?: boolean;
   keyClassName?: ComponentPropsWithoutRef<typeof Key>['className'];
 }
 
@@ -23,6 +25,7 @@ export function ShortcutIndicator({
   onFire,
   requiredKey,
   requiredKeyAlt,
+  absolute = false,
   keyClassName,
 }: ShortcutIndicator) {
   // XXX: 커버리지가 매우 좁습니다. (약 74%)
@@ -90,7 +93,12 @@ export function ShortcutIndicator({
   if (isMobile) return null;
 
   return (
-    <div className="pointer-events-none absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-[0.1875rem] opacity-100 transition-opacity peer-focus:peer-[:not(:placeholder-shown)]:opacity-0">
+    <div
+      className={cn(
+        'pointer-events-none flex items-center gap-[0.1875rem] opacity-100 transition-opacity peer-focus:peer-[:not(:placeholder-shown)]:opacity-0',
+        absolute && 'absolute right-2 top-1/2 -translate-y-1/2',
+      )}
+    >
       <Key pressed={isModifierPressed} className={keyClassName}>
         {requiredModifier === 'Meta' ? (
           <Command size={12} strokeWidth={2.5} />
