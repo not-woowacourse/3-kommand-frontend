@@ -93,7 +93,12 @@ export function ShortcutIndicator({
     };
   }, [handleKeys]);
 
-  if (isMobile) return null;
+  if (
+    isMobile === undefined ||
+    isMobile === true ||
+    requiredModifier === undefined
+  )
+    return null;
 
   return (
     <div
