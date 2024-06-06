@@ -14,8 +14,10 @@ interface ButtonProps {
   ariaLabel?: string;
   onClick: () => void;
   className?: string;
-  requiredKey?: KeyboardEvent['key'];
-  requiredKeyAlt?: KeyboardEvent['key'];
+  requiredCode?: ComponentPropsWithoutRef<
+    typeof ShortcutIndicator
+  >['requiredCode'];
+  keyLabel?: ComponentPropsWithoutRef<typeof ShortcutIndicator>['keyLabel'];
   keyClassName?: ComponentPropsWithoutRef<typeof Key>['className'];
 }
 
@@ -25,8 +27,8 @@ export function Button({
   ariaLabel,
   className,
   onClick,
-  requiredKey,
-  requiredKeyAlt,
+  requiredCode,
+  keyLabel,
   keyClassName,
 }: ButtonProps) {
   return (
@@ -43,11 +45,11 @@ export function Button({
         <Icon size={20} />
         {text && <span>{text}</span>}
       </div>
-      {requiredKey && (
+      {requiredCode && keyLabel && (
         <ShortcutIndicator
           onFire={onClick}
-          requiredKey={requiredKey}
-          requiredKeyAlt={requiredKeyAlt}
+          requiredCode={requiredCode}
+          keyLabel={keyLabel}
           keyClassName={keyClassName}
         />
       )}

@@ -59,8 +59,8 @@ export function Search() {
         onChange={onChange}
         onFocus={onFocus}
         placeholder="영화 검색"
-        requiredKey="k"
-        requiredKeyAlt="ㅏ"
+        requiredCode="KeyK"
+        keyLabel="K"
       />
       <AnimatePresence>
         {id && (

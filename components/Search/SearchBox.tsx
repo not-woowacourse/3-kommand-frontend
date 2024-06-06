@@ -17,12 +17,10 @@ interface SearchBoxProps {
   onChange: ChangeEventHandler<HTMLInputElement>;
   onFocus: FocusEventHandler<HTMLInputElement>;
   placeholder: string;
-  requiredKey: ComponentPropsWithoutRef<
+  requiredCode: ComponentPropsWithoutRef<
     typeof ShortcutIndicator
-  >['requiredKey'];
-  requiredKeyAlt?: ComponentPropsWithoutRef<
-    typeof ShortcutIndicator
-  >['requiredKeyAlt'];
+  >['requiredCode'];
+  keyLabel: ComponentPropsWithoutRef<typeof ShortcutIndicator>['keyLabel'];
 }
 
 export function SearchBox({
@@ -30,8 +28,8 @@ export function SearchBox({
   onChange,
   onFocus,
   placeholder,
-  requiredKey,
-  requiredKeyAlt,
+  requiredCode,
+  keyLabel,
 }: SearchBoxProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -54,8 +52,8 @@ export function SearchBox({
       />
       <ShortcutIndicator
         onFire={() => inputRef.current?.focus()}
-        requiredKey={requiredKey}
-        requiredKeyAlt={requiredKeyAlt}
+        requiredCode={requiredCode}
+        keyLabel={keyLabel}
         absolute
       />
       <Search

@@ -52,7 +52,8 @@ export function Detail({ id }: DetailProps) {
           onClick={onClick}
           icon={ArrowLeft}
           text="검색 결과로 돌아가기"
-          requiredKey="["
+          requiredCode="BracketLeft"
+          keyLabel="["
         />
       </div>
     );
@@ -63,7 +64,8 @@ export function Detail({ id }: DetailProps) {
         onClick={onClick}
         icon={ArrowLeft}
         text="검색 결과로 돌아가기"
-        requiredKey="["
+        requiredCode="BracketLeft"
+        keyLabel="["
         className="-translate-x-2.5 -translate-y-2.5"
       />
       <div className="flex w-full flex-col gap-8">

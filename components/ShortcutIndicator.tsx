@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react';
 
-import { Command } from 'lucide-react';
+import { Command, type LucideIcon } from 'lucide-react';
 
 import { Key } from '@/components/Key';
 import { cn } from '@/lib/utils';
@@ -15,16 +15,16 @@ import { cn } from '@/lib/utils';
 interface ShortcutIndicator {
   onFire: () => void;
   // pass lowercase values if using an alphabet
-  requiredKey: KeyboardEvent['key'];
-  requiredKeyAlt?: KeyboardEvent['key'];
+  requiredCode: KeyboardEvent['code'];
+  keyLabel: string | LucideIcon;
   absolute?: boolean;
   keyClassName?: ComponentPropsWithoutRef<typeof Key>['className'];
 }
 
 export function ShortcutIndicator({
   onFire,
-  requiredKey,
-  requiredKeyAlt,
+  requiredCode,
+  keyLabel: KeyLabel,
   absolute = false,
   keyClassName,
 }: ShortcutIndicator) {
@@ -51,12 +51,12 @@ export function ShortcutIndicator({
     (event: KeyboardEvent) => {
       switch (event.type) {
         case 'keydown':
-          if (event.key === requiredKey || event.key === requiredKeyAlt)
-            setIsRequiredKeyPressed(true);
-          if (event.key === requiredModifier) setIsModifierPressed(true);
+          if (event.code === requiredCode) setIsRequiredKeyPressed(true);
+          if (requiredModifier && event.code.startsWith(requiredModifier))
+            setIsModifierPressed(true);
 
           if (
-            event.key === requiredKey &&
+            event.code === requiredCode &&
             ((requiredModifier === 'Meta' && event.metaKey) ||
               (requiredModifier === 'Ctrl' && event.ctrlKey))
           ) {
@@ -74,13 +74,13 @@ export function ShortcutIndicator({
 
           break;
         case 'keyup':
-          if (event.key === requiredKey || event.key === requiredKeyAlt)
-            setIsRequiredKeyPressed(false);
-          if (event.key === requiredModifier) setIsModifierPressed(false);
+          if (event.code === requiredCode) setIsRequiredKeyPressed(false);
+          if (requiredModifier && event.code.startsWith(requiredModifier))
+            setIsModifierPressed(false);
           break;
       }
     },
-    [requiredModifier, onFire, requiredKey, requiredKeyAlt],
+    [requiredModifier, onFire, requiredCode],
   );
 
   useEffect(() => {
@@ -115,7 +115,11 @@ export function ShortcutIndicator({
         )}
       </Key>
       <Key pressed={isRequiredKeyPressed} className={keyClassName}>
-        {requiredKey.toUpperCase()}
+        {typeof KeyLabel === 'string' ? (
+          KeyLabel
+        ) : (
+          <KeyLabel size={12} strokeWidth={2.5} />
+        )}
       </Key>
     </div>
   );

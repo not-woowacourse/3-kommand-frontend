@@ -1,6 +1,6 @@
 'use client';
 
-import { HistoryIcon, ListX } from 'lucide-react';
+import { Delete, HistoryIcon, ListX } from 'lucide-react';
 
 import { Button } from '@/components/Search/Button';
 import { Error } from '@/components/Search/Error';
@@ -28,7 +28,8 @@ export function History() {
           icon={ListX}
           text="모두 삭제"
           onClick={() => dispatch(reset())}
-          requiredKey="Backspace"
+          requiredCode="Backspace"
+          keyLabel={Delete}
         />
       </div>
     </>
