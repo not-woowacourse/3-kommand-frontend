@@ -14,7 +14,7 @@ const metadata: Metadata = {
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="ko-KR">
-      <body className="break-keep bg-body dark:bg-body-dark">
+      <body className="overflow-hidden break-keep bg-body dark:bg-body-dark">
         <ReduxProvider>
           <main className="flex h-screen w-screen flex-col items-center justify-center gap-6 p-6 transition-[padding,gap] sm:gap-8 sm:p-8">
             {children}

@@ -7,6 +7,7 @@ import {
   useRef,
 } from 'react';
 
+import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
 
 import { ShortcutIndicator } from '@/components/ShortcutIndicator';
@@ -35,7 +36,12 @@ export function SearchBox({
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <search className="relative w-full max-w-96">
+    // XXX: motion.search가 없다.
+    <motion.div
+      layout
+      transition={{ mass: 0.5 }}
+      className="relative w-full max-w-96"
+    >
       <input
         ref={inputRef}
         placeholder={placeholder}
@@ -57,6 +63,6 @@ export function SearchBox({
         size={18}
         strokeWidth={2.5}
       />
-    </search>
+    </motion.div>
   );
 }

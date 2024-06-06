@@ -2,6 +2,7 @@
 
 import { type ChangeEvent, useEffect, useState } from 'react';
 
+import { AnimatePresence } from 'framer-motion';
 import { parseAsInteger, parseAsString, useQueryState } from 'nuqs';
 import { useDebounce } from 'use-debounce';
 
@@ -61,21 +62,23 @@ export function Search() {
         requiredKey="k"
         requiredKeyAlt="ㅏ"
       />
-      {id && (
-        <ResultsContainer>
-          <Detail id={id} />
-        </ResultsContainer>
-      )}
-      {!id && query !== '' && (
-        <ResultsContainer>
-          <SearchResults query={debouncedQuery} />
-        </ResultsContainer>
-      )}
-      {!id && query === '' && isDirty && (
-        <ResultsContainer>
-          <History />
-        </ResultsContainer>
-      )}
+      <AnimatePresence>
+        {id && (
+          <ResultsContainer>
+            <Detail id={id} />
+          </ResultsContainer>
+        )}
+        {!id && query !== '' && (
+          <ResultsContainer>
+            <SearchResults query={debouncedQuery} />
+          </ResultsContainer>
+        )}
+        {!id && query === '' && isDirty && (
+          <ResultsContainer>
+            <History />
+          </ResultsContainer>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
