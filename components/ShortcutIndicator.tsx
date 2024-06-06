@@ -28,18 +28,21 @@ export function ShortcutIndicator({
   absolute = false,
   keyClassName,
 }: ShortcutIndicator) {
-  // XXX: 커버리지가 매우 좁습니다. (약 74%)
-  const userAgentDataSupported = typeof navigator.userAgentData !== 'undefined';
+  const [isMobile, setIsMobile] = useState<boolean | undefined>(undefined);
+  const [requiredModifier, setRequiredModifier] = useState<
+    'Meta' | 'Ctrl' | undefined
+  >(undefined);
 
-  const isMobile = userAgentDataSupported
-    ? navigator.userAgentData?.mobile === true
-    : undefined;
+  useEffect(() => {
+    if (typeof navigator === 'undefined') return;
+    if (typeof navigator.userAgentData === 'undefined') return;
 
-  const requiredModifier = userAgentDataSupported
-    ? navigator.userAgentData?.platform === 'macOS'
-      ? 'Meta'
-      : 'Ctrl'
-    : undefined;
+    // XXX: navigator.userAgentData의 커버리지가 매우 좁습니다. (약 74%)
+    setIsMobile(navigator.userAgentData.mobile);
+    setRequiredModifier(
+      navigator.userAgentData.platform === 'macOS' ? 'Meta' : 'Ctrl',
+    );
+  }, []);
 
   const [isModifierPressed, setIsModifierPressed] = useState(false);
   const [isRequiredKeyPressed, setIsRequiredKeyPressed] = useState(false);
