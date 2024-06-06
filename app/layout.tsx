@@ -16,7 +16,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
     <html lang="ko-KR">
       <body className="break-keep bg-body dark:bg-body-dark">
         <ReduxProvider>
-          <main className="flex h-screen w-screen items-center justify-center p-4">
+          <main className="flex h-screen w-screen flex-col items-center justify-center gap-6 p-6 transition-[padding,gap] sm:gap-8 sm:p-8">
             {children}
           </main>
         </ReduxProvider>
