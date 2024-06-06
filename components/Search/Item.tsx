@@ -31,7 +31,7 @@ export function Item({ item }: ItemProps) {
   return (
     <li className="relative">
       <Link
-        className="peer flex flex-wrap items-end gap-2 border-2 border-transparent bg-white p-4 outline-none transition-[transform,background-color] hover:bg-base-100 focus-visible:border-accent-500 active:scale-95 active:rounded-lg dark:border-accent-500 dark:bg-base-dark-900 dark:hover:bg-base-dark-800"
+        className="peer flex flex-wrap items-end gap-2 border-2 border-transparent bg-white p-4 outline-none transition-[transform,background-color] hover:bg-base-100 focus-visible:border-accent-500 active:scale-95 active:rounded-lg dark:bg-base-dark-900 dark:hover:bg-base-dark-800 dark:focus-visible:border-accent-500"
         href={href}
         replace
       >
