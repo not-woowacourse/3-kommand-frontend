@@ -7,14 +7,14 @@ import { X } from 'lucide-react';
 import { useQueryState } from 'nuqs';
 import { withQuery } from 'ufo';
 
+import type { MoviesControllerFindOneData } from '@/__generated__/data-contracts';
 import { Button } from '@/components/Search/Button';
 import { useAppDispatch, useAppSelector } from '@/lib/redux';
 import { cn } from '@/lib/utils';
 import { remove } from '@/states/historySlice';
-import type { Detail } from '@/states/searchApi';
 
 interface ItemProps {
-  item: Detail;
+  item: MoviesControllerFindOneData;
 }
 
 export function Item({ item }: ItemProps) {

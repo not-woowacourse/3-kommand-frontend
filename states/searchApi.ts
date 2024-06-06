@@ -5,30 +5,17 @@ import {
 } from '@reduxjs/toolkit/query/react';
 import { joinURL, withQuery } from 'ufo';
 
+import type {
+  MoviesControllerFindOneData,
+  MoviesControllerSearchParams,
+} from '@/__generated__/data-contracts';
 import { API_URL, CLIENT_NAME } from '@/constants/constant';
 
 interface DetailArgs {
-  id: number;
+  id: MoviesControllerFindOneData['id'];
 }
 
-export type Detail = {
-  id: number;
-  title: string;
-  alternativeTitle: string;
-  uci: string;
-  url: string;
-  year: number;
-  region: string; // "한국,미국"
-  category: string; // "드라마,코미디"
-  rights: string;
-};
-
-interface SearchResultsArgs {
-  query: string;
-  limit?: number;
-}
-
-export type SearchResults = (Detail & {
+export type SearchResults = (MoviesControllerFindOneData & {
   matchedFields: {
     title: boolean;
     alternativeTitle: boolean;
@@ -48,10 +35,13 @@ export const searchApi = createApi({
     // will be json by default
   }),
   endpoints: (builder) => ({
-    getDetail: builder.query<Detail, DetailArgs>({
+    getDetail: builder.query<MoviesControllerFindOneData, DetailArgs>({
       query: ({ id }) => joinURL('movies/detail', id.toString()),
     }),
-    getSearchResults: builder.query<SearchResults, SearchResultsArgs>({
+    getSearchResults: builder.query<
+      SearchResults,
+      MoviesControllerSearchParams
+    >({
       queryFn: async (
         { query, limit },
         _queryApi,

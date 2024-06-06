@@ -1,9 +1,10 @@
+import type { MoviesControllerFindOneData } from '@/__generated__/data-contracts';
 import { Item } from '@/components/Search/Item';
-import type { Detail, MatchedFields } from '@/states/searchApi';
+import type { MatchedFields } from '@/states/searchApi';
 
 interface GroupProps {
   title: MatchedFields | (string & {});
-  items: Detail[];
+  items: MoviesControllerFindOneData[];
 }
 
 export function Group({ title, items }: GroupProps) {

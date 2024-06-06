@@ -13,15 +13,16 @@ import {
 } from 'lucide-react';
 import { parseAsInteger, useQueryState } from 'nuqs';
 
+import type { MoviesControllerFindOneData } from '@/__generated__/data-contracts';
 import { Button } from '@/components/Search/Button';
 import { Error } from '@/components/Search/Error';
 import { useAppDispatch } from '@/lib/redux';
 import { cn } from '@/lib/utils';
 import { prepend } from '@/states/historySlice';
-import { type Detail, useGetDetailQuery } from '@/states/searchApi';
+import { useGetDetailQuery } from '@/states/searchApi';
 
 interface DetailProps {
-  id: Detail['id'];
+  id: MoviesControllerFindOneData['id'];
 }
 
 export function Detail({ id }: DetailProps) {

@@ -20,7 +20,7 @@ const reducers = combineReducers({
 });
 
 const persistedReducer = persistReducer(
-  { key: 'root', storage, whitelist: ['history'] },
+  { key: 'not-woowacourse-search', storage, whitelist: ['history'] },
   reducers,
 );
 
