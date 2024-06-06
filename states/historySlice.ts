@@ -1,21 +1,25 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-type HistoryState = string[];
+import type { Detail } from '@/states/searchApi';
 
-const initialState: HistoryState = [];
+const initialState: Detail[] = [];
 
 const historySlice = createSlice({
   name: 'history',
   initialState,
   reducers: {
-    prepend: (state, action: PayloadAction<string>) => {
-      state.unshift(action.payload);
+    prepend: (state, { payload }: PayloadAction<{ item: Detail }>) => {
+      return [
+        payload.item,
+        ...state.filter((item) => item.id !== payload.item.id),
+      ];
     },
-    reset: (_state) => {
-      return initialState;
+    remove: (state, { payload }: PayloadAction<{ id: Detail['id'] }>) => {
+      return state.filter((item) => item.id !== payload.id);
     },
+    reset: () => initialState,
   },
 });
 
-export const { prepend, reset } = historySlice.actions;
+export const { prepend, remove, reset } = historySlice.actions;
 export const historyReducer = historySlice.reducer;
