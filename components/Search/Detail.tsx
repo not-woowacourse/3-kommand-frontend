@@ -9,7 +9,7 @@ import {
   ArrowLeft,
   Asterisk,
   Earth,
-  LinkIcon,
+  Link2,
   type LucideIcon,
   SquareArrowOutUpRight,
 } from 'lucide-react';
@@ -51,7 +51,7 @@ export function Detail({ id }: DetailProps) {
         <Button
           onClick={onClick}
           icon={ArrowLeft}
-          text="검색 결과로 돌아가기"
+          text="검색 결과"
           requiredCode="BracketLeft"
           keyLabel="["
         />
@@ -59,16 +59,17 @@ export function Detail({ id }: DetailProps) {
     );
 
   return (
-    <div className="flex flex-col items-start gap-2 p-5">
-      <Button
-        onClick={onClick}
-        icon={ArrowLeft}
-        text="검색 결과로 돌아가기"
-        requiredCode="BracketLeft"
-        keyLabel="["
-        className="-translate-x-2.5 -translate-y-2.5"
-      />
-      <div className="flex w-full flex-col gap-8">
+    <div className="flex flex-col">
+      <div className="sticky top-0 flex justify-start border-b border-base-200/50 bg-white/50 p-2 backdrop-blur dark:border-base-dark-800 dark:bg-base-dark-900">
+        <Button
+          onClick={onClick}
+          icon={ArrowLeft}
+          text="검색 결과"
+          requiredCode="BracketLeft"
+          keyLabel="["
+        />
+      </div>
+      <div className="flex w-full flex-col gap-8 p-5 pt-6">
         <div className="flex flex-col gap-2">
           <h2 className="text-balance text-center text-3xl font-bold text-base-800 dark:text-base-dark-200">
             {item.title}
@@ -100,7 +101,7 @@ export function Detail({ id }: DetailProps) {
             <DetailRow icon={Asterisk} label="UCI" text={item.uci} />
           )}
           {item.url && (
-            <DetailRow icon={LinkIcon} label="더 알아보기" href={item.url} />
+            <DetailRow icon={Link2} label="더 알아보기" href={item.url} />
           )}
         </div>
       </div>
@@ -125,7 +126,7 @@ function DetailRow({ icon: Icon, label, text, href }: DetailRowProps) {
       className={cn(
         'flex min-h-10 items-center justify-between gap-4 rounded-lg p-2 text-base-700 dark:text-base-dark-300',
         href &&
-          'ring-accent-500 ring-offset-white transition-all hover:bg-base-200 active:scale-95 dark:ring-offset-base-dark-900 dark:hover:bg-base-dark-800',
+          'outline-none ring-accent-500 ring-offset-white transition-all hover:bg-base-200 focus-visible:ring-2 active:scale-95 dark:ring-offset-base-dark-900 dark:hover:bg-base-dark-800',
       )}
     >
       <div className="flex gap-2 text-base-600 dark:text-base-dark-400">

@@ -25,7 +25,7 @@ export function Group({ title, items }: GroupProps) {
 
   return (
     <div>
-      <h2 className="sticky top-0 z-10 border-b border-base-200 bg-white px-4 py-1.5 text-xs font-semibold text-base-500 dark:border-base-dark-800 dark:bg-base-dark-900 dark:text-base-dark-500">
+      <h2 className="sticky top-0 z-10 border-b border-base-200 bg-white/60 px-4 py-1.5 text-xs font-semibold text-base-600 backdrop-blur dark:border-base-dark-800 dark:bg-base-dark-900/50 dark:text-base-dark-500">
         {formattedTitle}
       </h2>
       <ul className="divide-y divide-base-200 dark:divide-base-dark-800">
