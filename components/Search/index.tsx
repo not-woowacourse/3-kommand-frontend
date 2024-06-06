@@ -5,8 +5,11 @@ import { type ChangeEvent, useEffect, useState } from 'react';
 import { parseAsInteger, parseAsString, useQueryState } from 'nuqs';
 import { useDebounce } from 'use-debounce';
 
+import { Detail } from '@/components/Search/Detail';
+import { History } from '@/components/Search/History';
+import { ResultsContainer } from '@/components/Search/ResultsContainer';
 import { SearchBox } from '@/components/Search/SearchBox';
-import { SearchResult } from '@/components/Search/SearchResult';
+import { SearchResults } from '@/components/Search/SearchResults';
 import { cn } from '@/lib/utils';
 
 export function Search() {
@@ -59,7 +62,21 @@ export function Search() {
         requiredKey="k"
         requiredKeyAlt="ㅏ"
       />
-      <SearchResult query={deboundedQuery} />
+      {id && (
+        <ResultsContainer>
+          <Detail id={id} />
+        </ResultsContainer>
+      )}
+      {!id && query !== '' && (
+        <ResultsContainer>
+          <SearchResults query={debouncedQuery} />
+        </ResultsContainer>
+      )}
+      {!id && query === '' && isDirty && (
+        <ResultsContainer>
+          <History />
+        </ResultsContainer>
+      )}
     </div>
   );
 }
