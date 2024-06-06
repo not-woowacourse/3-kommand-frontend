@@ -1,5 +1,5 @@
 import type { Config } from 'tailwindcss';
-import { indigo, neutral } from 'tailwindcss/colors';
+import { blue, neutral, slate } from 'tailwindcss/colors';
 import { fontFamily } from 'tailwindcss/defaultTheme';
 
 const config = {
@@ -34,12 +34,12 @@ const config = {
       },
       colors: {
         body: {
-          DEFAULT: '#f9f9f9',
+          DEFAULT: '#fcfeff',
           dark: '#0c0c0c',
         },
-        base: neutral,
+        base: slate,
         'base-dark': neutral,
-        accent: indigo,
+        accent: blue,
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
