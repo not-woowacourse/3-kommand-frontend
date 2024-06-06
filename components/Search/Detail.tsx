@@ -8,6 +8,7 @@ import {
   AlertCircle,
   ArrowLeft,
   Asterisk,
+  Clipboard,
   Earth,
   Link2,
   type LucideIcon,
@@ -33,6 +34,8 @@ export function Detail({ id }: DetailProps) {
   const [_, setId] = useQueryState('id', parseAsInteger);
   const dispatch = useAppDispatch();
 
+  const onBackClick = () => setId(null);
+
   useEffect(() => {
     if (item) dispatch(prepend({ item }));
   }, [item, dispatch]);
@@ -40,16 +43,13 @@ export function Detail({ id }: DetailProps) {
   // XXX: 왜 로딩 상태 뜨는 걸 못 보는지
   // TODO: skeleton
   if (isLoading) return <div>로딩 중</div>;
-
-  const onClick = () => setId(null);
-
   // XXX: better error message
   if (error || !item)
     return (
       <div className="flex flex-col items-center pb-8">
         <Error icon={AlertCircle} text="오류가 발생했습니다." />
         <Button
-          onClick={onClick}
+          onClick={onBackClick}
           icon={ArrowLeft}
           text="검색 결과"
           requiredCode="BracketLeft"
@@ -58,16 +58,39 @@ export function Detail({ id }: DetailProps) {
       </div>
     );
 
+  const isShareAvailable = typeof navigator.share !== 'undefined';
+  const isClipboardAvailable = typeof navigator.clipboard !== 'undefined';
+
+  const onShareClick = () => {
+    isShareAvailable
+      ? navigator.share({
+          text: `영화를 공유합니다: ${item.title}`,
+          url: window.location.href,
+        })
+      : navigator.clipboard
+          .writeText(window.location.href)
+          .then(() => window.alert('복사되었습니다.'));
+  };
+
   return (
     <div className="flex flex-col">
-      <div className="sticky top-0 flex justify-start border-b border-base-200/50 bg-white/50 p-2 backdrop-blur dark:border-base-dark-800 dark:bg-base-dark-900">
+      <div className="sticky top-0 flex justify-between border-b border-base-200 bg-white/60 p-2 backdrop-blur dark:border-base-dark-800 dark:bg-base-dark-900/60">
         <Button
-          onClick={onClick}
+          onClick={onBackClick}
           icon={ArrowLeft}
           text="검색 결과"
           requiredCode="BracketLeft"
           keyLabel="["
         />
+        {(isShareAvailable || isClipboardAvailable) && (
+          <Button
+            onClick={onShareClick}
+            icon={Clipboard}
+            text="링크 복사"
+            requiredCode="KeyU"
+            keyLabel="U"
+          />
+        )}
       </div>
       <div className="flex w-full flex-col gap-8 p-5 pt-6">
         <div className="flex flex-col gap-2">
