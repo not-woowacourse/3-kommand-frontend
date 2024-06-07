@@ -71,7 +71,7 @@ export function Item({ item }: ItemProps) {
           onClick={() => dispatch(remove({ id: item.id }))}
           icon={X}
           ariaLabel="최근 검색 결과에서 삭제"
-          className="absolute right-3 top-3 transition-opacity peer-active:opacity-0"
+          className="absolute right-3 top-3 transition-all peer-active:opacity-0"
         />
       )}
     </li>
