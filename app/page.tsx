@@ -1,27 +1,19 @@
-import { cn } from '@/lib/utils';
+import { Suspense } from 'react';
 
-const RootPage = () => {
+import { Logo } from '@/components/Logo';
+import { Search } from '@/components/Search';
+
+export default function RootPage() {
   return (
-    <main
-      className={cn(
-        'h-screen w-screen',
-        'flex flex-col items-center justify-center',
-        'bg-neutral-50',
-      )}
-    >
-      <button
-        className={cn(
-          'flex flex-col items-center justify-center gap-10',
-          'hover:scale-110',
-          'active:scale-100',
-          'transition-transform',
-        )}
+    <>
+      <Logo />
+      <Suspense
+        fallback={
+          <div className="flex-1 flex-col items-center justify-end gap-4 sm:justify-center" />
+        }
       >
-        <p className="text-8xl">👋</p>
-        <p className="text-4xl font-bold">Hello World</p>
-      </button>
-    </main>
+        <Search />
+      </Suspense>
+    </>
   );
-};
-
-export default RootPage;
+}

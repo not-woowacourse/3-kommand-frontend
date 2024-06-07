@@ -1,16 +1,10 @@
 import { type Metadata } from 'next';
-import localFont from 'next/font/local';
 
 import { type PropsWithChildren } from 'react';
 
-import QueryProvider from '@/providers/query-provider';
+import { ReduxProvider } from '@/providers/ReduxProvider';
 
 import './globals.css';
-
-const wantedSansVariable = localFont({
-  src: '../public/fonts/WantedSansVariable.woff2',
-  display: 'swap',
-});
 
 const metadata: Metadata = {
   title: 'Searzh',
@@ -20,9 +14,13 @@ const metadata: Metadata = {
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="ko-KR">
-      <QueryProvider>
-        <body className={wantedSansVariable.className}>{children}</body>
-      </QueryProvider>
+      <body className="overflow-hidden break-keep bg-body dark:bg-body-dark">
+        <ReduxProvider>
+          <main className="flex h-screen w-screen flex-col items-center justify-center gap-6 p-6 transition-[padding,gap] sm:gap-8 sm:p-8">
+            {children}
+          </main>
+        </ReduxProvider>
+      </body>
     </html>
   );
 };

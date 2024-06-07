@@ -1,7 +1,8 @@
 import type { Config } from 'tailwindcss';
+import { blue, neutral, slate } from 'tailwindcss/colors';
+import { fontFamily } from 'tailwindcss/defaultTheme';
 
 const config = {
-  darkMode: ['class'],
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
@@ -18,7 +19,27 @@ const config = {
       },
     },
     extend: {
+      height: {
+        // @ts-expect-error
+        screen: ['100vh', '100dvh'],
+      },
+      fontFamily: {
+        sans: [
+          'Pretendard\\ GOV\\ Variable',
+          'Pretendard\\ GOV',
+          'Pretendard\\ Variable',
+          'Pretendard',
+          ...fontFamily.sans,
+        ],
+      },
       colors: {
+        body: {
+          DEFAULT: '#fcfeff',
+          dark: '#0c0c0c',
+        },
+        base: slate,
+        'base-dark': neutral,
+        accent: blue,
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -39,10 +60,6 @@ const config = {
         muted: {
           DEFAULT: 'hsl(var(--muted))',
           foreground: 'hsl(var(--muted-foreground))',
-        },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
         },
         popover: {
           DEFAULT: 'hsl(var(--popover))',

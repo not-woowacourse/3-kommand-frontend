@@ -1,69 +1,34 @@
 # 구현과제 3. Searzh
 
-> 이 과제는 [구글 검색](https://www.google.com)을 모티브로 제작되었습니다.
+## Deployment
 
-## 유의사항
+[✨ not-woowacourse.te6.in/search](https://not-woowacourse.te6.in/search)
 
-**읽기 좋은 코드**에 집중해주세요.
+## 자신의 코드에서 강조할 부분
 
-- 기능의 정상 동작 여부
-- 작성하는 코드의 퀄리티
-- Git 관리 수준
-- PR, 코드 리뷰 방식
+- 제목, 대체 제목, 저작권자 중 어디서 match가 발생하여 검색되었는지에 따라 그룹을 나누어 검색 결과를 보여주도록 했습니다.
+  - RTK Query에서 그룹을 나눈(transform) 후 data로 넘길지, 아니면 그대로 data로 받은 뒤 렌더링하기 직전 그룹화할지 고민했습니다.
+  - 둘 중 무엇을 택하든 클라이언트에서 일어나는 동작이라 성능상 큰 차이는 없을 것이라고 생각하지만 검색 결과를 match 필드가 아닌 다른 기준으로도 가공할 가능성이 열려 있다면 후자가 더 나을 것 같다고 생각했습니다.
+- 서치 파라미터로 debounce된 검색어와 보여지고 있는 영화의 id를 관리합니다.
+  - 이 부분을 직접 구현하다가 비슷한 작업을 반복하는 느낌이 들어서 [nuqs](https://github.com/47ng/nuqs)라는 라이브러리를 처음으로 써 보았는데 꽤 마음에 들었습니다. 또 쓸 것 같습니다.
+- [Homebrew](https://brew.sh/) 웹사이트의 검색 막대에 있는 단축키 indicator가 커맨드 키, K 키를 누를 때마다 반응하는 게 귀여워서 따라해 봤습니다. `<ShortcutIndicator />`로 원하는 아무 곳에나 넣을 수 있습니다.
+- 다크 모드 지원 됩니다.
 
-최소 기능 구현만 만족하면 **자유롭게 커스텀**이 가능합니다.
+## 자신의 코드에서 부족한 부분
 
-- 디자인 커스텀 가능 (@shadcn/ui 안 써도 됨)
-- 폴더 구조 커스텀 가능
-- 코드 컨벤션 커스텀 가능
-- 의존성 설치 및 삭제 가능
+- 검색어와 관련하여 실제 input value, debounce된 value, 서치 파라미터의 query 세 개의 상태(마지막 것도 상태라고 봐야겠죠)가 걸려 있는데, 더 개선해볼 수 있는 방법이 있는지 궁금합니다.
+- 탭 키로는 검색 결과를 오고갈 수 있지만 위아래 방향키는 아직 구현을 못(안?) 했습니다.
 
-**README 작성**은 필수입니다.
+## 기타 코드를 이해하는데 도움을 주는 내용
 
-- 자신의 코드에서 강조할 부분
-- 자신의 코드에서 부족한 부분
-- 기타 코드를 이해하는데 도움을 주는 내용
+- [redux-persist](https://github.com/rt2zz/redux-persist) 마지막 업데이트가 4년 전인 거 보고 [redux-remember](https://github.com/zewish/redux-remember) 써 밨습니다.
+  - 4년 전 마지막 업데이트된 것의 대체재로 들고 온 게 별 57개 달린...?
 
-Fork & PR 등 과제 진행과 관련된 내용은,  
- [우테코 따라잡기 노션 - 구현과제 진행 관련 유의사항](https://yopark.notion.site/08c99780759944118452d77b6927775a) 문서를 참고해주세요.
+## 느낀 점
 
-배포 이후 **배포 주소**를 말씀해주시면 해당 주소를 CORS에 추가하도록 하겠습니다.
-
-## API
-
-API 주소 : https://not-woowacourse-api.yopark.dev
-
-자세한 내용은 [Swagger](https://not-woowacourse-api.yopark.dev/api-docs)를 참고해주세요.
-
-이번 과제에서 사용할 API는 **0.x(공통), 3.x(Searzh)** 입니다.
-
-> 이걸 만든 사람은 백엔드 개발자가 아닙니다. 사용해보시고 오류나 빈틈이 있으면 채널톡 부탁드립니다 😭
-
-## 구현해야 할 기능
-
-> Searzh 시연 링크 : https://not-woowacourse-3-searzh-frontend-for-example.vercel.app  
-> Searzh 시연 레포 : https://github.com/yoopark/not-woowacourse-3-searzh-frontend-for-example
-
-**영화 검색** 기능을 제작해야 합니다.
-
-검색 바
-
-- 검색 내용이 변경될 때마다 검색 내용이 포함된 _검색 키워드_ 목록을 서버로부터 받아 보여줘야 합니다.
-- 특정 검색 키워드를 클릭하면 상세 페이지로 이동해야 합니다.
-- 아무 것도 입력하지 않았을 때에는 _최근 검색어_ 목록을 보여줘야 합니다.
-- 특정 최근 검색어를 삭제할 수 있어야 합니다.
-- 검색 키워드 목록에 최근 검색어가 포함되어 있는 경우 상단에 모아서 보여주어야 합니다.
-
-상세 페이지
-
-- 유저 접속 시 해당 키워드를 최근 검색어에 추가합니다.
-- 최근 검색어 정보는 서버로 보내지 않고 로컬 스토리지에 저장하는 방식으로 관리합니다.
-
-> Searzh 데이터의 가공 과정이 궁금하다면, [3-searzh-data](https://github.com/not-woowacourse/3-searzh-data) 레포지토리를 참고해주세요 👍
-
-## 기술 스택 관련 제한사항
-
-- Redux, RTK Query, Redux-Persist를 충실히 사용해주세요.
-- Redux를 제외한 전역 상태관리 라이브러리를 사용하지 말아주세요.
-- React Query를 사용하지 말아주세요.
-- @shadcn/ui의 [Command 컴포넌트](https://ui.shadcn.com/docs/components/command)를 사용하셔도 무방합니다.
+- 생각보다 다양한 문제를 마주쳐서 재밌었습니다.
+  - macOS에서 meta(command) 키와 다른 키를 함께 눌렀다 뗄 때 meta 키의 keyup 이벤트는 fire되지 않습니다. (대부분의 브라우저에서 그런 것 같습니다.)
+  - flex item(`display: flex`인 parent의 child)는 기본적으로 자신의 child 크기보다 작아지지 않습니다.
+    - [`min-[width/height]: 0`을 두어 해결했습니다.](https://stackoverflow.com/questions/36247140/why-dont-flex-items-shrink-past-content-size)
+- redux 자체가 어떤 점이 좋은지는 아직 잘 모르겠습니다. redux-toolkit은 좋은 것 같습니다. (특히 `createApi()`로 만든 endpoint들이 hook으로 생성된다는 점)
+- 좋은 세션 열어 주셔서 많이 배워 갑니다. 감사합니다.
