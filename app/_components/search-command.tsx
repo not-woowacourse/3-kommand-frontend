@@ -67,11 +67,8 @@ const SearchCommand = () => {
     .filter((movie) => movie.matchedFields.rights)
     .sort(searchHistoryFirst);
 
-  /**
-   * searchRecordStore가 변화하기 때문에 useEffect 안에서 함수를 생성하면 안된다.
-   */
-  const handleCmdXKeyDown = (e: KeyboardEvent) => {
-    if (e.key === 'x' && (e.metaKey || e.ctrlKey)) {
+  const handleCmdBackspaceKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Backspace' && (e.metaKey || e.ctrlKey)) {
       e.preventDefault();
 
       dispatch(searchHistoryActions.clear());
@@ -79,10 +76,11 @@ const SearchCommand = () => {
   };
 
   useEffect(() => {
-    document.addEventListener('keydown', handleCmdXKeyDown);
+    document.addEventListener('keydown', handleCmdBackspaceKeyDown);
 
-    return () => document.removeEventListener('keydown', handleCmdXKeyDown);
-  }, [handleCmdXKeyDown]);
+    return () =>
+      document.removeEventListener('keydown', handleCmdBackspaceKeyDown);
+  }, [handleCmdBackspaceKeyDown]);
 
   return (
     <Command
@@ -153,7 +151,7 @@ const SearchCommand = () => {
             <div className="flex items-center">
               검색 기록을 모두 삭제하려면&nbsp;
             </div>
-            <div className="flex items-center">⌘ X 를 누르거나&nbsp;</div>
+            <div className="flex items-center">⌘ ← 를 누르거나&nbsp;</div>
             <div className="flex items-center">
               <span
                 className="cursor-pointer rounded-sm border bg-slate-100 px-1 py-0.5 font-bold"
