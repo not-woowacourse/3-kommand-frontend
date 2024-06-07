@@ -34,4 +34,5 @@ export {
   SEARCH_HISTORY_SLICE_NAME,
   searchHistoryActions,
   searchHistoryReducer,
+  type SearchHistory,
 };

@@ -17,7 +17,10 @@ import {
 import { ROUTES } from '@/constants/routes';
 import { useMoviesControllerSearchQuery } from '@/lib/api';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { searchHistoryActions } from '@/slices/search-history-slice';
+import {
+  type SearchHistory,
+  searchHistoryActions,
+} from '@/slices/search-history-slice';
 
 const SearchCommand = () => {
   const router = useRouter();
@@ -32,7 +35,10 @@ const SearchCommand = () => {
 
   const movies = data ?? [];
 
-  const searchHistory = useAppSelector((state) => state.searchHistory);
+  const searchHistory = useAppSelector(
+    (state) => state.searchHistory,
+  ) as SearchHistory; // FIXME: useAppSelector의 타입 추론이 안되는 이슈
+
   const dispatch = useAppDispatch();
 
   const searchHistoryFirst = (
@@ -95,12 +101,12 @@ const SearchCommand = () => {
         {debouncedSearch.length === 0 &&
           Object.keys(searchHistory).length > 0 && (
             <CommandGroup heading="검색 기록">
-              {Object.values(searchHistory).map((record) => (
+              {Object.values(searchHistory).map((movie) => (
                 <SearchCommandItem
                   variant="seen"
-                  key={record.id}
-                  value={record.id.toString()}
-                  movie={record}
+                  key={movie.id}
+                  value={movie.id.toString()}
+                  movie={movie}
                   onSelect={(value) =>
                     router.push(ROUTES.MOVIE_OF(Number(value)))
                   }
