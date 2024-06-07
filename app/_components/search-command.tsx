@@ -16,8 +16,8 @@ import {
 } from '@/components/ui/command';
 import { ROUTES } from '@/constants/routes';
 import { useMoviesControllerSearchQuery } from '@/lib/api';
-import { useSearchRecordStore } from '@/stores/use-search-record-store';
-import { useStore_Ssr } from '@/stores/use-store__ssr';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { searchHistoryActions } from '@/slices/search-history-slice';
 
 const SearchCommand = () => {
   const router = useRouter();
@@ -30,21 +30,20 @@ const SearchCommand = () => {
     { skip: debouncedSearch.length === 0 },
   );
 
-  const searchRecordStore = useStore_Ssr(
-    useSearchRecordStore,
-    (state) => state,
-  );
-
   const movies = data ?? [];
 
-  const records = Object.values(searchRecordStore?.records ?? {});
+  const searchHistory = useAppSelector((state) => state.searchHistory);
+  const dispatch = useAppDispatch();
 
-  const recordsFirst = (a: ReadMovieResponseDto, b: ReadMovieResponseDto) => {
-    if (records.some((record) => record.id === a.id)) {
+  const searchHistoryFirst = (
+    a: ReadMovieResponseDto,
+    b: ReadMovieResponseDto,
+  ) => {
+    if (searchHistory[a.id] !== undefined) {
       return -1;
     }
 
-    if (records.some((record) => record.id === b.id)) {
+    if (searchHistory[b.id] !== undefined) {
       return 1;
     }
 
@@ -56,11 +55,11 @@ const SearchCommand = () => {
       (movie) =>
         movie.matchedFields.title || movie.matchedFields.alternativeTitle,
     )
-    .sort(recordsFirst);
+    .sort(searchHistoryFirst);
 
   const moviesRightsMatched = movies
     .filter((movie) => movie.matchedFields.rights)
-    .sort(recordsFirst);
+    .sort(searchHistoryFirst);
 
   /**
    * searchRecordStore가 변화하기 때문에 useEffect 안에서 함수를 생성하면 안된다.
@@ -69,7 +68,7 @@ const SearchCommand = () => {
     if (e.key === 'x' && (e.metaKey || e.ctrlKey)) {
       e.preventDefault();
 
-      searchRecordStore?.clear();
+      dispatch(searchHistoryActions.clear());
     }
   };
 
@@ -94,9 +93,9 @@ const SearchCommand = () => {
       />
       <CommandList>
         {debouncedSearch.length === 0 &&
-          Object.keys(searchRecordStore?.records ?? {}).length > 0 && (
+          Object.keys(searchHistory).length > 0 && (
             <CommandGroup heading="검색 기록">
-              {Object.values(searchRecordStore?.records ?? {}).map((record) => (
+              {Object.values(searchHistory).map((record) => (
                 <SearchCommandItem
                   variant="seen"
                   key={record.id}
@@ -120,9 +119,7 @@ const SearchCommand = () => {
                   router.push(ROUTES.MOVIE_OF(Number(value)))
                 }
                 variant={
-                  records.some((record) => record.id === movie.id)
-                    ? 'seen'
-                    : 'default'
+                  searchHistory[movie.id] !== undefined ? 'seen' : 'default'
                 }
               />
             ))}
@@ -139,15 +136,13 @@ const SearchCommand = () => {
                   router.push(ROUTES.MOVIE_OF(Number(value)))
                 }
                 variant={
-                  records.some((record) => record.id === movie.id)
-                    ? 'seen'
-                    : 'default'
+                  searchHistory[movie.id] !== undefined ? 'seen' : 'default'
                 }
               />
             ))}
           </CommandGroup>
         )}
-        {Object.keys(searchRecordStore?.records ?? {}).length > 0 && (
+        {Object.keys(searchHistory).length > 0 && (
           <div className="flex flex-wrap items-center px-2 py-1 text-xs text-gray-600">
             <div className="flex items-center">
               검색 기록을 모두 삭제하려면&nbsp;
@@ -156,9 +151,7 @@ const SearchCommand = () => {
             <div className="flex items-center">
               <span
                 className="cursor-pointer rounded-sm border bg-slate-100 px-1 py-0.5 font-bold"
-                onClick={() => {
-                  searchRecordStore?.clear();
-                }}
+                onClick={() => dispatch(searchHistoryActions.clear())}
               >
                 여기
               </span>

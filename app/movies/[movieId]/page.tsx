@@ -10,8 +10,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
 import { useMoviesControllerFindOneQuery } from '@/lib/api';
-import { useSearchRecordStore } from '@/stores/use-search-record-store';
-import { useStore_Ssr } from '@/stores/use-store__ssr';
+import { useAppDispatch } from '@/lib/hooks';
+import { searchHistoryActions } from '@/slices/search-history-slice';
 
 type MovieIdPageProps = {
   params: {
@@ -22,30 +22,17 @@ type MovieIdPageProps = {
 const MovieIdPage = ({ params: { movieId } }: MovieIdPageProps) => {
   const { data } = useMoviesControllerFindOneQuery(movieId);
 
-  const movie = data;
+  const dispatch = useAppDispatch();
 
-  const searchRecordStore = useStore_Ssr(
-    useSearchRecordStore,
-    (state) => state,
-  );
+  const movie = data;
 
   useEffect(() => {
     if (movie === undefined) {
       return;
     }
 
-    if (searchRecordStore === undefined) {
-      return;
-    }
-
-    const isExist = searchRecordStore.records[movie.id] !== undefined;
-
-    if (isExist) {
-      return;
-    }
-
-    searchRecordStore.addRecord(movie);
-  }, [searchRecordStore, movie]);
+    dispatch(searchHistoryActions.add(movie));
+  }, [movie, dispatch, searchHistoryActions.add]);
 
   if (movie === undefined) {
     return null;
