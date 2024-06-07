@@ -25,6 +25,8 @@ export function Group({ title, items }: GroupProps) {
 
   return (
     <div>
+      {/* XXX: Firefox에서 sticky 요소에 backdrop-filter 적용 안 되는 문제 */}
+      {/* https://bugzilla.mozilla.org/show_bug.cgi?id=1803813 */}
       <h2 className="sticky top-0 z-10 border-b border-base-200 bg-white/60 px-4 py-1.5 text-xs font-semibold text-base-600 backdrop-blur dark:border-base-dark-800 dark:bg-base-dark-900/50 dark:text-base-dark-400">
         {formattedTitle}
       </h2>

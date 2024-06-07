@@ -80,6 +80,8 @@ export function Detail({ id }: DetailProps) {
 
   return (
     <div className="flex flex-col">
+      {/* XXX: Firefox에서 sticky 요소에 backdrop-filter 적용 안 되는 문제 */}
+      {/* https://bugzilla.mozilla.org/show_bug.cgi?id=1803813 */}
       <div className="sticky top-0 flex justify-between border-b border-base-200 bg-white/60 p-2 backdrop-blur dark:border-base-dark-800 dark:bg-base-dark-900/60">
         <Button
           onClick={onBackClick}
