@@ -1,25 +1,12 @@
-import { cn } from '@/lib/utils';
+import { SearchCommand } from '@/app/_components/search-command';
 
 const RootPage = () => {
   return (
-    <main
-      className={cn(
-        'h-screen w-screen',
-        'flex flex-col items-center justify-center',
-        'bg-neutral-50',
-      )}
-    >
-      <button
-        className={cn(
-          'flex flex-col items-center justify-center gap-10',
-          'hover:scale-110',
-          'active:scale-100',
-          'transition-transform',
-        )}
-      >
-        <p className="text-8xl">👋</p>
-        <p className="text-4xl font-bold">Hello World</p>
-      </button>
+    <main className="flex flex-col items-center gap-10">
+      <p className="mt-20 text-7xl font-bold">🎬</p>
+      <div className="px-2">
+        <SearchCommand />
+      </div>
     </main>
   );
 };
