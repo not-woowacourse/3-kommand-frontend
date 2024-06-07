@@ -1,7 +1,17 @@
 /**
  * @reference https://redux.js.org/usage/nextjs
  */
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+  persistReducer,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 import { moviesApi } from '@/lib/api';
 import {
@@ -9,17 +19,29 @@ import {
   searchHistoryReducer,
 } from '@/slices/search-history-slice';
 
+const persistConfig = {
+  key: 'redux-persist',
+  storage,
+  whitelist: [SEARCH_HISTORY_SLICE_NAME],
+};
+
+const rootReducer = combineReducers({
+  [moviesApi.reducerPath]: moviesApi.reducer,
+  [SEARCH_HISTORY_SLICE_NAME]: searchHistoryReducer,
+});
+
 const makeStore = () => {
   return configureStore({
-    reducer: {
-      // 특정 top-level slice에서 생성된 리듀서를 추가
-      [moviesApi.reducerPath]: moviesApi.reducer,
-      [SEARCH_HISTORY_SLICE_NAME]: searchHistoryReducer,
-    },
+    reducer: persistReducer(persistConfig, rootReducer),
 
     // 캐싱, 요청 취소, 폴링 등등 유용한 rtk-query의 기능들을 위한 api 미들웨어 추가
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(moviesApi.middleware),
+      getDefaultMiddleware({
+        serializableCheck: {
+          // 이렇게 해도 되는거 맞나?
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      }).concat(moviesApi.middleware),
   });
 };
 

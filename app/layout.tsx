@@ -21,11 +21,9 @@ const metadata: Metadata = {
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="ko-KR">
-      <ReduxStoreProvider>
-        <body className={cn(wantedSansVariable.className, 'bg-neutral-50')}>
-          {children}
-        </body>
-      </ReduxStoreProvider>
+      <body className={cn(wantedSansVariable.className, 'bg-neutral-50')}>
+        <ReduxStoreProvider>{children}</ReduxStoreProvider>
+      </body>
     </html>
   );
 };
