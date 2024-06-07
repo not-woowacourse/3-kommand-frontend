@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 
 import { useEffect, useState } from 'react';
 
-import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from '@uidotdev/usehooks';
 
 import { type ReadMovieResponseDto } from '@/__generated__/data-contracts';
@@ -16,7 +15,7 @@ import {
   CommandList,
 } from '@/components/ui/command';
 import { ROUTES } from '@/constants/routes';
-import { api } from '@/lib/api';
+import { useMoviesControllerSearchQuery } from '@/lib/api';
 import { useSearchRecordStore } from '@/stores/use-search-record-store';
 import { useStore_Ssr } from '@/stores/use-store__ssr';
 
@@ -26,20 +25,17 @@ const SearchCommand = () => {
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 300);
 
-  const { data } = useQuery({
-    queryKey: ['search', debouncedSearch],
-    queryFn: () =>
-      api.movies.moviesControllerSearch({ query: debouncedSearch, limit: 6 }),
-    placeholderData: (prevData) => prevData,
-    enabled: debouncedSearch.length > 0,
-  });
+  const { data } = useMoviesControllerSearchQuery(
+    { query: debouncedSearch },
+    { skip: debouncedSearch.length === 0 },
+  );
 
   const searchRecordStore = useStore_Ssr(
     useSearchRecordStore,
     (state) => state,
   );
 
-  const movies = data?.data ?? [];
+  const movies = data ?? [];
 
   const records = Object.values(searchRecordStore?.records ?? {});
 

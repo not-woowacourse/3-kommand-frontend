@@ -4,7 +4,7 @@ import localFont from 'next/font/local';
 import { type PropsWithChildren } from 'react';
 
 import { cn } from '@/lib/utils';
-import QueryProvider from '@/providers/query-provider';
+import { ReduxStoreProvider } from '@/providers/redux-store-provider';
 
 import './globals.css';
 
@@ -21,11 +21,11 @@ const metadata: Metadata = {
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="ko-KR">
-      <QueryProvider>
+      <ReduxStoreProvider>
         <body className={cn(wantedSansVariable.className, 'bg-neutral-50')}>
           {children}
         </body>
-      </QueryProvider>
+      </ReduxStoreProvider>
     </html>
   );
 };

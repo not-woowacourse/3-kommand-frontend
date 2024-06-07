@@ -4,13 +4,12 @@ import Link from 'next/link';
 
 import { useEffect } from 'react';
 
-import { useQuery } from '@tanstack/react-query';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
-import { api } from '@/lib/api';
+import { useMoviesControllerFindOneQuery } from '@/lib/api';
 import { useSearchRecordStore } from '@/stores/use-search-record-store';
 import { useStore_Ssr } from '@/stores/use-store__ssr';
 
@@ -21,12 +20,9 @@ type MovieIdPageProps = {
 };
 
 const MovieIdPage = ({ params: { movieId } }: MovieIdPageProps) => {
-  const { data } = useQuery({
-    queryKey: ['movie', movieId],
-    queryFn: () => api.movies.moviesControllerFindOne(movieId),
-  });
+  const { data } = useMoviesControllerFindOneQuery(movieId);
 
-  const movie = data?.data;
+  const movie = data;
 
   const searchRecordStore = useStore_Ssr(
     useSearchRecordStore,
